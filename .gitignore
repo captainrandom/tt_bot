@@ -1,0 +1,6 @@
+giphy_api_key
+yarn-error.log
+.idea/
+*.d.ts
+src/**/*.js
+node_modules/
