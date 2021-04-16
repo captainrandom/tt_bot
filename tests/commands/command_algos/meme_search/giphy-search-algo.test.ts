@@ -1,10 +1,8 @@
-import {
-  GiphySearchAlgo,
-  SameLocationMessageWriter
-} from '../../../../src/commands/command_algos/meme_search/giphy-search-algo'
+import { GiphySearchAlgo } from '../../../../src/commands/command_algos/meme_search/giphy-search-algo'
 import { GiphyFetch } from '@giphy/js-fetch-api'
 import path from 'path'
 import fs from 'fs'
+import { SameLocationMessageWriter } from '../../../../src/message_writer/same-location-message-writer'
 
 const giphyKeyFile = path.join(__dirname, '../../../../giphy_api_key')
 const giphApiKey = fs.readFileSync(giphyKeyFile, 'utf8')
@@ -23,8 +21,12 @@ describe('searches giphy api', () => {
     await subject.executeCommand({
       cmbot: {
         bot: {
-          pm: (msg: string) => { pmMsg = msg },
-          speak: (msg: string) => { speakMsg = msg }
+          pm: (msg: string) => {
+            pmMsg = msg
+          },
+          speak: (msg: string) => {
+            speakMsg = msg
+          }
         }
       },
       pm: false,
@@ -43,8 +45,12 @@ describe('searches giphy api', () => {
     await subject.executeCommand({
       cmbot: {
         bot: {
-          pm: (msg: string) => { pmMsg = msg },
-          speak: (msg: string) => { speakMsg = msg }
+          pm: (msg: string) => {
+            pmMsg = msg
+          },
+          speak: (msg: string) => {
+            speakMsg = msg
+          }
         }
       },
       pm: false,

@@ -1,0 +1,8 @@
+{
+  "botAuth": {
+    "auth": "auth-id",
+    "userid": "user-id",
+    "roomid": "room-id"
+  },
+  "masterUserIds": ["x", "y", "z"]
+}

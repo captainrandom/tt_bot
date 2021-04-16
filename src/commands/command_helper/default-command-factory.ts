@@ -5,7 +5,9 @@ export class DefaultCommandFactory implements CommandFactory {
   getCustomCommands (commandName: string, commandAlgo: CommandAlgo): CustomCommand {
     return {
       name: commandName,
-      command: commandAlgo.executeCommand,
+      command: async function (options) {
+        await commandAlgo.executeCommand(options)
+      },
       modonly: false,
       pmonly: false,
       hide: false,

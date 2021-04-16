@@ -7,7 +7,7 @@ import * as fs from 'fs'
 
 const commandFactory = new DefaultCommandFactory()
 
-const giphyKeyFile = path.join(__dirname, '../../giphy_key')
+const giphyKeyFile = path.join(__dirname, '../../giphy_api_key')
 const giphyClient = new GiphyFetch(fs.readFileSync(giphyKeyFile, 'utf8'))
 
 const messageWriter = new SameLocationMessageWriter()
