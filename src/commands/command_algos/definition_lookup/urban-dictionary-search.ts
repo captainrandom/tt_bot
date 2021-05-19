@@ -25,13 +25,13 @@ export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
                     'http://api.urbandictionary.com/v0/define',
                     {params: { term: term} }
                 )
-                console.log(response)
 
                 if (response.data.list.length > 0) {
                     const firstResult = response.data.list[0];
                     return Promise.resolve([
                         `Definition: ${firstResult.definition}`,
-                        `Example: ${firstResult.example}`
+                        `Example: ${firstResult.example}`,
+                        firstResult.permalink
                     ])
                 } else {
                     return Promise.resolve([`could not find any definitions for ${term}`])
