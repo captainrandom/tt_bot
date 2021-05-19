@@ -1,8 +1,8 @@
 import { GiphySearchAlgo } from '../../../../src/commands/command_algos/meme_search/giphy-search-algo'
 import { GiphyFetch } from '@giphy/js-fetch-api'
-import path from 'path'
-import fs from 'fs'
+import * as path from 'path'
 import { SameLocationMessageWriter } from '../../../../src/message_writer/same-location-message-writer'
+import * as fs from "fs";
 
 const giphyKeyFile = path.join(__dirname, '../../../../giphy_api_key')
 const giphApiKey = fs.readFileSync(giphyKeyFile, 'utf8')

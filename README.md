@@ -15,6 +15,14 @@ yarn install
 
 ## Run
 
+TODO: need to add the setup for the api keys and such
+
+To start the bot run:
+```shell
+# TODO: there are some env vars missing here!!
+make run-bot
+```
+
 ## How to add a new module
 
 Under `src/commands/command_algos` create a new directory for the new module. Then create a class that implements the
@@ -46,3 +54,5 @@ exports.customCommands = commandFactory.getCustomCommands('chuckfacts', commandA
 ## TODOS
 
 - need to have a better deployment setup!
+- fix tests
+- cleanup some of the high level bot apis
