@@ -91,8 +91,8 @@ describe('test chuck noris joke', () => {
 
         await expect(pmMsg).toBeUndefined()
         await expect(speakMsg).toEqual([
-            "Definition: [The word] that comes after \"of [this dick]\"",
-            "Example: Me: Hey [Daquan] [sit] at deenda\n\nDaquan : deenda what?\r\nMe : deenda of [this dick]",
+            "Definition: The word that comes after \"of this dick\"",
+            "Example: Me: Hey Daquan sit at deenda\n\nDaquan : deenda what?\r\nMe : deenda of this dick",
             "http://deenda.urbanup.com/10559627"
         ])
         expect(axios.get).toHaveBeenCalledWith('http://api.urbandictionary.com/v0/define', { params: { term: term} });

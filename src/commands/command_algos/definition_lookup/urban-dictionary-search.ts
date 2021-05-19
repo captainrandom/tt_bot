@@ -28,9 +28,10 @@ export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
 
                 if (response.data.list.length > 0) {
                     const firstResult = response.data.list[0];
+                    const regex = /\[|\]/g;
                     return Promise.resolve([
-                        `Definition: ${firstResult.definition}`,
-                        `Example: ${firstResult.example}`,
+                        `Definition: ${firstResult.definition.replace(regex, '')}`,
+                        `Example: ${firstResult.example.replace(regex, '')}`,
                         firstResult.permalink
                     ])
                 } else {
