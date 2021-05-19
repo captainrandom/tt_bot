@@ -11,12 +11,14 @@ export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
     }
 
     async executeCommand(options: CommandArgs): Promise<void> {
-        const message = await this.getMessage(options.arg)
-        this.messageWriter.writeMessage(message, options)
+        const messages = await this.getMessage(options.arg)
+        for(let message of messages) {
+            this.messageWriter.writeMessage(message, options)
+        }
         return Promise.resolve(undefined);
     }
 
-    async getMessage(term: string): Promise<string> {
+    async getMessage(term: string): Promise<Array<string>> {
         if(term) {
             try {
                 const response = await axios.get(
@@ -27,18 +29,20 @@ export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
 
                 if (response.data.list.length > 0) {
                     const firstResult = response.data.list[0];
-                    const message = `Definition: ${firstResult.definition}\n\nExample: ${firstResult.example}`
-                    return Promise.resolve(message)
+                    return Promise.resolve([
+                        `Definition: ${firstResult.definition}`,
+                        `Example: ${firstResult.example}`
+                    ])
                 } else {
-                    return Promise.resolve(`could not find any definitions for ${term}`)
+                    return Promise.resolve([`could not find any definitions for ${term}`])
                 }
             } catch(err) {
                 console.log(err);
-                return Promise.resolve(`caught error while calling ${term}`)
+                return Promise.resolve([`caught error while calling ${term}`])
             }
 
         } else {
-            return Promise.resolve(this.getHelp('urbandict'))
+            return Promise.resolve([this.getHelp('urbandict')])
         }
     }
 

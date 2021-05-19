@@ -70,8 +70,8 @@ describe('test chuck noris joke', () => {
     });
 
     it('looks up definition', async () => {
-        let pmMsg: string
-        let speakMsg: string
+        let pmMsg: [string]
+        let speakMsg: [string] = []
 
         const deendaResults = readResultsJson('deenda_results.json')
         axios.get.mockImplementationOnce(() => Promise.resolve({data: deendaResults}));
@@ -80,8 +80,8 @@ describe('test chuck noris joke', () => {
         await subject.executeCommand({
             cmbot: {
                 bot: {
-                    pm: (msg: string) => { pmMsg = msg },
-                    speak: (msg: string) => { speakMsg = msg }
+                    pm: (msg: string) => { pmMsg.push(msg) },
+                    speak: (msg: string) => { speakMsg.push(msg) }
                 }
             },
             pm: false,
@@ -90,7 +90,10 @@ describe('test chuck noris joke', () => {
         });
 
         await expect(pmMsg).toBeUndefined()
-        await expect(speakMsg).toBe("Definition: [The word] that comes after \"of [this dick]\"\n\nExample: Me: Hey [Daquan] [sit] at deenda\n\nDaquan : deenda what?\r\nMe : deenda of [this dick]")
+        await expect(speakMsg).toEqual([
+            "Definition: [The word] that comes after \"of [this dick]\"",
+            "Example: Me: Hey [Daquan] [sit] at deenda\n\nDaquan : deenda what?\r\nMe : deenda of [this dick]"
+        ])
         expect(axios.get).toHaveBeenCalledWith('http://api.urbandictionary.com/v0/define', { params: { term: term} });
     });
 

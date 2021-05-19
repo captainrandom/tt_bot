@@ -17,6 +17,12 @@ yarn install
 
 TODO: need to add the setup for the api keys and such
 
+Upon an update need to rebuild:
+```shell
+tsc
+```
+TODO need to make this build only to a certain dir and clean out prev js artifact files!!
+
 To start the bot run:
 ```shell
 # TODO: there are some env vars missing here!!
