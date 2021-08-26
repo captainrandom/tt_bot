@@ -1,3 +1,3 @@
 .PHONY: run-bot
 run-bot:
-	BOTNAME=test-bot ts-node bot-runner.ts
+	BOTNAME=test-bot ts-node new-bot-runner.ts

@@ -23,6 +23,9 @@ describe('test chuck noris joke', () => {
         return JSON.parse(fs.readFileSync(resultsFilePath, 'utf-8'))
     }
 
+    it('check spelling of command name', () => {
+        expect(subject.commandName).toBe('urbandict')
+    })
 
     it('looks up definition with no search term', async () => {
         let pmMsg: string

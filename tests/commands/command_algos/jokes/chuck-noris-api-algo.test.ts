@@ -7,6 +7,10 @@ describe('test chuck noris joke', () => {
     subject = await ChuckNorisApiAlgo.create(new SameLocationMessageWriter())
   })
 
+  it('test command name is correct', () => {
+    expect(subject.commandName).toBe('chuckfacts')
+  })
+
   it('when no args & public message', async () => {
     let pmMsg: string
     let speakMsg: string

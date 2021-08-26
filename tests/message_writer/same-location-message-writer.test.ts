@@ -8,10 +8,10 @@ describe('searches giphy api', () => {
 
   const msg = 'some-message'
 
-  it('send private message', () => {
+  it('send private message', async () => {
     let pmMsg: string
     let speakMsg: string
-    subject.writeMessage(msg, {
+    await subject.writeMessage(msg, {
       cmbot: {
         bot: {
           pm: (msg: string) => { pmMsg = msg },
@@ -26,10 +26,10 @@ describe('searches giphy api', () => {
     expect(speakMsg).toBeUndefined()
   })
 
-  it('send chat message', () => {
+  it('send chat message', async () => {
     let pmMsg: string
     let speakMsg: string
-    subject.writeMessage(msg, {
+    await subject.writeMessage(msg, {
       cmbot: {
         bot: {
           pm: (msg: string) => { pmMsg = msg },

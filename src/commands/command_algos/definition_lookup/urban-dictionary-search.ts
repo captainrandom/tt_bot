@@ -4,6 +4,8 @@ import {MessageWriter} from "../../../message_writer/message-writer";
 import axios from "axios";
 
 export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
+
+    readonly commandName: string = 'urbandict'
     private readonly messageWriter: MessageWriter;
 
     constructor(messageWriter: MessageWriter) {
@@ -13,7 +15,7 @@ export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
     async executeCommand(options: CommandArgs): Promise<void> {
         const messages = await this.getMessage(options.arg)
         for(let message of messages) {
-            this.messageWriter.writeMessage(message, options)
+            await this.messageWriter.writeMessage(message, options)
         }
         return Promise.resolve(undefined);
     }

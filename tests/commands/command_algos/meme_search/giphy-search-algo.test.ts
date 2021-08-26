@@ -14,6 +14,10 @@ describe('searches giphy api', () => {
     subject = new GiphySearchAlgo(giphy, new SameLocationMessageWriter())
   })
 
+  it('check spelling of command name', () => {
+    expect(subject.commandName).toBe('giphy')
+  })
+
   it('returns no gifs for random search query', async () => {
     let pmMsg: string
     let speakMsg: string

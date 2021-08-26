@@ -7,6 +7,8 @@ const globalAny: any = global
 globalAny.fetch = require('node-fetch')
 
 export class GiphySearchAlgo implements CommandAlgo {
+    public readonly commandName: string = 'giphy'
+
     private readonly TOP_N_GIPHS = 50;
     private readonly giphyClient: GiphyFetch;
     private readonly messageWriter: MessageWriter;
@@ -20,7 +22,7 @@ export class GiphySearchAlgo implements CommandAlgo {
       if (options.arg) {
         const giphUrl = await this.getGifUrl(options) ?? `no gifs found for ${options.arg}`
         console.log('giphUrl', giphUrl)
-        this.messageWriter.writeMessage(giphUrl, options)
+        await this.messageWriter.writeMessage(giphUrl, options)
       }
     }
 

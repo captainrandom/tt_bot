@@ -4,6 +4,8 @@ import { CommandArgs } from '../../command-args'
 import { ChuckNorrisClient } from './chuck-norris-client'
 
 export class ChuckNorisApiAlgo implements CommandAlgo {
+    readonly commandName: string = 'chuckfacts'
+
     private readonly chuckNorrisClient: ChuckNorrisClient;
     private readonly messageWriter: MessageWriter;
 
@@ -19,7 +21,7 @@ export class ChuckNorisApiAlgo implements CommandAlgo {
 
     async executeCommand (options: CommandArgs): Promise<void> {
       const msg = await this.getMessage(options.arg)
-      this.messageWriter.writeMessage(msg, options)
+      await this.messageWriter.writeMessage(msg, options)
     }
 
     private async getMessage (arg: string): Promise<string> {
