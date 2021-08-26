@@ -9,9 +9,14 @@ a bot for tt
 
 To install run the following:
 ```shell
+npm install -g ts-node yarn
 yarn install
 ```
 
+###Setup a New Bot
+
+Go here to setup the bookmark in order to get the user_id, room_id, & auth_id:
+https://alaingilbert.github.io/Turntable-API/bookmarklet.html
 
 ## Run
 
@@ -59,6 +64,18 @@ exports.customCommands = commandFactory.getCustomCommands('chuckfacts', commandA
 
 ## TODOS
 
+This is the new bot api url docs: https://www.npmjs.com/package/ttapi
+
 - need to have a better deployment setup!
 - fix tests
 - cleanup some of the high level bot apis
+- work with the new bot
+- add 500 ms reply wait time when speaking
+- Fix todos on new bot
+
+New Features:
+- For the new bot need to create a help message somehow
+- add jokes
+- add a chatbot option
+- recommend songs (privately; maybe)
+- backfill song list

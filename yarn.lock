@@ -5632,7 +5632,7 @@ tsutils@^3.17.1:
   dependencies:
     tslib "^1.8.1"
 
-ttapi@^4.0.1:
+ttapi@^4.0.1, ttapi@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/ttapi/-/ttapi-4.0.3.tgz#000d5e1e7e088261ebb5f08d203017d705d1890d"
   integrity sha512-S1Q9yXqtsqVtESpb8HwCo+//i4Fc6OCdxiuG4ZPZVPVK1B8xcWu0ryg3i7Fp0gLFYgViqQWhT81yqR27SjkOBg==
