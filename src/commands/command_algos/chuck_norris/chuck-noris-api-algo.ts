@@ -35,7 +35,7 @@ export class ChuckNorisApiAlgo implements CommandAlgo {
       }
     }
 
-    getHelp (commandName: string): string {
-      return `/${commandName} returns chuck norris facts`
+    getHelp (): string {
+      return `/${this.commandName} returns chuck norris facts`
     }
 }

@@ -6,6 +6,7 @@ import { SameLocationMessageWriter } from '../../message_writer/same-location-me
 import { GiphyFetch } from '@giphy/js-fetch-api'
 import fs from 'fs'
 import { MessageWriter } from '../../message_writer/message-writer'
+import { DadJokeCommand } from '../command_algos/dad_joke/dad-joke-command'
 
 export class DefaultCommandFactory implements CommandFactory {
   getCustomCommands (commandName: string, commandAlgo: CommandAlgo): CustomCommand {
@@ -17,7 +18,7 @@ export class DefaultCommandFactory implements CommandFactory {
       modonly: false,
       pmonly: false,
       hide: false,
-      help: commandAlgo.getHelp(commandName),
+      help: commandAlgo.getHelp(),
       acl: false
     }
   }
@@ -26,7 +27,8 @@ export class DefaultCommandFactory implements CommandFactory {
     const messageWriter = new SameLocationMessageWriter()
     return [
       new UrbanDictionaryDefinitionLookup(messageWriter),
-      this.createGiphyCommand(giphyKeyFile, messageWriter)
+      this.createGiphyCommand(giphyKeyFile, messageWriter),
+      DadJokeCommand.create(messageWriter)
     ]
   }
 

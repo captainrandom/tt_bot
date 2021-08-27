@@ -79,3 +79,4 @@ New Features:
 - add a chatbot option
 - recommend songs (privately; maybe)
 - backfill song list
+- Need to fix help messages!!

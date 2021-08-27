@@ -4,5 +4,5 @@ export interface CommandAlgo {
     readonly commandName: string
 
     executeCommand(options: CommandArgs): Promise<void>;
-    getHelp(commandName: string): string;
+    getHelp(): string;
 }

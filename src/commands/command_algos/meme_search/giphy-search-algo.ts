@@ -45,7 +45,7 @@ export class GiphySearchAlgo implements CommandAlgo {
       return Math.floor(Math.random() * max)
     }
 
-    getHelp (commandName: string): string {
-      return `queries a random gif by typing /${commandName}`
+    getHelp (): string {
+      return `queries a random gif by typing /${this.commandName}`
     }
 }

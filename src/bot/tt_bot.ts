@@ -27,8 +27,10 @@ export class TTBotHandler {
   }
 
   onReady (data) {
-    this.bot.roomRegister(this.botAuth.roomid)
-    this.bot.setAsBot()
+    const bot = this.bot
+    this.bot.roomRegister(this.botAuth.roomid, function () {
+      bot.setAsBot()
+    })
     this.bot.bop()
   }
 
