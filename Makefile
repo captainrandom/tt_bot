@@ -1,6 +1,12 @@
 .PHONY: run-bot
 run-bot:
-	BOTNAME=test-bot ts-node new-bot-runner.ts
+	./run-bot.sh
+
+.PHONY: setup-configs
+setup-configs:
+	cp systemd/* /etc/systemd/system/
+	sudo systemctl daemon reload
+	sudo systemctl enable tt-bot
 
 .PHONY: download-configs
 download-configs:

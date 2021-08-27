@@ -1,0 +1,6 @@
+[Unit]
+Description=restart TT Bot service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl restart tt-bot

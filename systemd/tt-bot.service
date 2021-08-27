@@ -1,0 +1,10 @@
+[Unit]
+Description=TT Bot
+
+[Service]
+ExecStart=/home/ubuntu/tt_bot/run_tt_bot.sh
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
