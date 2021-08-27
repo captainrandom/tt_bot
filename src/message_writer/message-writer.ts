@@ -1,5 +1,9 @@
-import { CommandArgs } from '../commands/command-args'
+export interface Message {
+    msg: string;
+    pm: boolean;
+}
 
 export interface MessageWriter {
-    writeMessage(msg: string, options: CommandArgs): Promise<void>;
+    writeMessages(messages: Message[]): Promise<void>;
+    writeMessage(msg: Message): Promise<void>;
 }
