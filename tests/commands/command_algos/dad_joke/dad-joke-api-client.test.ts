@@ -5,12 +5,12 @@ import MockAdapter from 'axios-mock-adapter'
 describe('test chuck noris joke', () => {
   let axiosMock;
   beforeAll(() => {
-    axiosMock = new MockAdapter(axios);
-  });
+    axiosMock = new MockAdapter(axios)
+  })
 
   afterEach(() => {
-    axiosMock.reset();
-  });
+    axiosMock.reset()
+  })
 
   let subject: DadJokeApiClient
   beforeEach(async () => {

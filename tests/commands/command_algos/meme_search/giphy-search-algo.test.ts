@@ -1,17 +1,18 @@
 import { GiphySearchAlgo } from '../../../../src/commands/command_algos/meme_search/giphy-search-algo'
 import { GiphyFetch } from '@giphy/js-fetch-api'
-import * as path from 'path'
 import { SameLocationMessageWriter } from '../../../../src/message_writer/same-location-message-writer'
-import * as fs from "fs";
+import { anything, instance, mock, when } from 'ts-mockito'
 
-const giphyKeyFile = path.join(__dirname, '../../../../giphy_api_key')
-const giphApiKey = fs.readFileSync(giphyKeyFile, 'utf8')
+var sinon = require("sinon");
+
 
 describe('searches giphy api', () => {
+  const giphyMock: GiphyFetch = mock(GiphyFetch)
+  sinon.stub(Math, 'random').returns(0.1);
+
   let subject
   beforeEach(() => {
-    const giphy = new GiphyFetch(giphApiKey)
-    subject = new GiphySearchAlgo(giphy, new SameLocationMessageWriter())
+    subject = new GiphySearchAlgo(instance(giphyMock), new SameLocationMessageWriter())
   })
 
   it('check spelling of command name', () => {
@@ -21,6 +22,10 @@ describe('searches giphy api', () => {
   it('returns no gifs for random search query', async () => {
     let pmMsg: string
     let speakMsg: string
+    const arg = 'adfinw'
+    when(giphyMock.search(arg, anything())).thenResolve({
+      data: []
+    })
 
     await subject.executeCommand({
       cmbot: {
@@ -35,7 +40,7 @@ describe('searches giphy api', () => {
       },
       pm: false,
       userid: '1234',
-      arg: 'adfinw'
+      arg
     })
 
     await expect(pmMsg).toBeUndefined()
@@ -46,6 +51,15 @@ describe('searches giphy api', () => {
     let pmMsg: string
     let speakMsg: string
 
+    const arg = 'dog'
+    when(giphyMock.search(arg, anything())).thenResolve({
+      data: [
+        {
+          id: 'abcde'
+        }
+      ]
+    })
+
     await subject.executeCommand({
       cmbot: {
         bot: {
@@ -59,15 +73,15 @@ describe('searches giphy api', () => {
       },
       pm: false,
       userid: '1234',
-      arg: 'dog'
+      arg
     })
 
     await expect(pmMsg).toBeUndefined()
-    await expect(speakMsg).toBe('no gifs found for adfinw')
+    await expect(speakMsg).toBe('https://media.giphy.com/media/abcde/giphy.gif')
   })
 
   it('makes useful help text', () => {
-    const result = subject.getHelp('custom-command')
-    expect(result).toBe('queries a random gif by typing /custom-command')
+    const result = subject.getHelp()
+    expect(result).toBe('queries a random gif by typing /giphy')
   })
 })
