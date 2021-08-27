@@ -44,7 +44,7 @@ export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
         return Promise.resolve([`caught error while calling ${term}`])
       }
     } else {
-      return Promise.resolve([this.getHelp('urbandict')])
+      return Promise.resolve([this.getHelp()])
     }
   }
 

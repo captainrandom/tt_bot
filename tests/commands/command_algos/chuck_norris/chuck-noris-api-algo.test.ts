@@ -52,7 +52,7 @@ describe('test chuck noris joke', () => {
   })
 
   it('call help message with command name', () => {
-    const helpMsg = subject.getHelp('some-command')
-    expect(helpMsg).toBe('/some-command returns chuck norris facts')
+    const helpMsg = subject.getHelp()
+    expect(helpMsg).toBe('/chuckfacts returns chuck norris facts')
   })
 })
