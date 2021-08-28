@@ -14,26 +14,22 @@ interface ChatResponse {
 export class TTBotHandler {
   private readonly bot;
   private readonly botAuth: BotAuth;
-  private readonly commandsMap: Map<string, CommandAlgo> = new Map()
+  private readonly commandsByName: Map<string, CommandAlgo>
   private readonly commandsHelper: CommandHelper
   private readonly messageWriter: MessageWriter
 
-  constructor (botAuth: BotAuth, bot: any, commandHelper: CommandHelper, commands: CommandAlgo[], messageWriter: MessageWriter) {
+  constructor (
+    botAuth: BotAuth,
+    bot: any,
+    commandHelper: CommandHelper,
+    commandsByName: Map<string, CommandAlgo>,
+    messageWriter: MessageWriter)
+  {
     this.botAuth = botAuth
     this.bot = bot
     this.commandsHelper = commandHelper
     this.messageWriter = messageWriter
-    this.updateCommandMap(commands)
-  }
-
-  private updateCommandMap (commands: CommandAlgo[]) {
-    for (const cmd of commands) {
-      const wakeCmd = `/${cmd.commandName}`
-      if (this.commandsMap.has(wakeCmd)) {
-        throw new Error(`already have ${wakeCmd}`)
-      }
-      this.commandsMap.set(wakeCmd, cmd)
-    }
+    this.commandsByName = commandsByName
   }
 
   onReady (data) {
@@ -56,22 +52,30 @@ export class TTBotHandler {
 
   private async generateMessages (data: ChatResponse): Promise<Message[]> {
     const words: string[] = data.text.split(' ')
-    if (this.commandsMap.has(words[0])) {
-      return this.handleCommand(words[0], words, data)
+    if (this.commandsByName.has(words[0])) {
+      return this.handleCommand(words, data)
     } else if (this.commandsHelper.isHelpCommand(words)) {
-      return this.commandsHelper.getHelpMessage(words)
+      return this.commandsHelper.getHelpMessage(words, {
+        pm: this.isMessagePm(data),
+        userName: data.name
+      })
     } else {
       return []
     }
   }
 
-  private async handleCommand (firstWord: string, words: string[], data: ChatResponse): Promise<Message[]> {
+  private async handleCommand (words: string[], data: ChatResponse): Promise<Message[]> {
+    const command = words[0]
     words.shift()
-    return await this.commandsMap.get(firstWord)!
+    return await this.commandsByName.get(command)!
       .executeCommand({
-        pm: false,
+        pm: this.isMessagePm(data),
         userid: data.name,
         arg: words.join(' ')
       }) ?? []
+  }
+
+  private isMessagePm (data: ChatResponse): boolean {
+    return data.command !== 'speak'
   }
 }

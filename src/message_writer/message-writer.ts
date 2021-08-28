@@ -1,5 +1,5 @@
 export interface Message {
-    msg: string;
+    text: string;
     pm: boolean;
 }
 

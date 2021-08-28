@@ -1,23 +1,16 @@
 import { CommandAlgo } from '../command-algo'
 import { CommandArgs } from '../../command-args'
-import { MessageWriter } from '../../../message_writer/message-writer'
+import { Message, MessageWriter } from '../../../message_writer/message-writer'
 import axios from 'axios'
 
 export class UrbanDictionaryDefinitionLookup implements CommandAlgo {
-
   readonly commandName: string = 'urbandict'
-  private readonly messageWriter: MessageWriter
 
-  constructor (messageWriter: MessageWriter) {
-    this.messageWriter = messageWriter
-  }
-
-  async executeCommand (options: CommandArgs): Promise<void> {
+  async executeCommand (options: CommandArgs): Promise<Message[]> {
     const messages = await this.getMessage(options.arg)
-    for (let message of messages) {
-      await this.messageWriter.writeMessage(message, options)
-    }
-    return Promise.resolve(undefined)
+    return messages.map(msg => {
+      return { text: msg, pm: options.pm }
+    })
   }
 
   async getMessage (term: string): Promise<Array<string>> {

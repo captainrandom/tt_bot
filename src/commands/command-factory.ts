@@ -1,5 +1,4 @@
 import { CommandArgs } from './command-args'
-import { CommandAlgo } from './command_algos/command-algo'
 
 export interface CustomCommand {
     name: string;
@@ -9,8 +8,4 @@ export interface CustomCommand {
     hide: boolean;
     help: string;
     acl: boolean;
-}
-
-export interface CommandFactory {
-    getCustomCommands(commandName: string, commandAlgo: CommandAlgo): CustomCommand;
 }

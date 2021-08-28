@@ -1,6 +1,6 @@
 export interface Bot {
-    pm(message: string): undefined;
-    speak(message: string): undefined;
+    pm(message: string);
+    speak(message: string);
 }
 
 export interface CommandArgs {

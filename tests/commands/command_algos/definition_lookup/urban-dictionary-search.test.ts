@@ -1,4 +1,3 @@
-import { SameLocationMessageWriter } from '../../../../src/message_writer/same-location-message-writer'
 import { UrbanDictionaryDefinitionLookup } from '../../../../src/commands/command_algos/definition_lookup/urban-dictionary-search'
 import axios from 'axios'
 import * as fs from 'fs'
@@ -9,7 +8,7 @@ jest.mock('axios')
 describe('test chuck noris joke', () => {
   let subject: UrbanDictionaryDefinitionLookup
   beforeEach(async () => {
-    subject = new UrbanDictionaryDefinitionLookup(new SameLocationMessageWriter())
+    subject = new UrbanDictionaryDefinitionLookup()
   })
 
   afterEach(() => {
@@ -28,112 +27,84 @@ describe('test chuck noris joke', () => {
   })
 
   it('looks up definition with no search term', async () => {
-    let pmMsg: string
-    let speakMsg: string
-
     const term = ''
-    await subject.executeCommand({
-      cmbot: {
-        bot: {
-          pm: (msg: string) => { pmMsg = msg },
-          speak: (msg: string) => { speakMsg = msg }
-        }
-      },
+    const messages = await subject.executeCommand({
       pm: false,
       userid: '1234',
       arg: term
     })
 
     expect(axios.get.mock.calls).toHaveLength(0)
-    await expect(pmMsg).toBeUndefined()
-    await expect(speakMsg).toBe('looks up first definition on urban dictionary using /urbandict <search terms>')
+    expect(messages).toStrictEqual([{
+      text: 'looks up first definition on urban dictionary using /urbandict <search terms>',
+      pm: false
+    }])
   })
 
   it('looks up definition raises exception on call', async () => {
-    let pmMsg: string
-    let speakMsg: string
-
     axios.get.mockImplementationOnce(() => Promise.resolve(new Error('I like to throw')))
 
     const term = 'a'
-    await subject.executeCommand({
-      cmbot: {
-        bot: {
-          pm: (msg: string) => { pmMsg = msg },
-          speak: (msg: string) => { speakMsg = msg }
-        }
-      },
+    const messages = await subject.executeCommand({
       pm: false,
       userid: '1234',
       arg: term
     })
 
-    await expect(pmMsg).toBeUndefined()
-    await expect(speakMsg).toBe('caught error while calling a')
+    expect(messages).toStrictEqual([{
+      text: 'caught error while calling a',
+      pm: false
+    }])
   })
 
   it('looks up definition', async () => {
-    let pmMsg: [string]
-    const speakMsg: [string] = []
-
     const deendaResults = readResultsJson('deenda_results.json')
     axios.get.mockImplementationOnce(() => Promise.resolve({ data: deendaResults }))
 
     const term = 'deenda'
-    await subject.executeCommand({
-      cmbot: {
-        bot: {
-          pm: (msg: string) => { pmMsg.push(msg) },
-          speak: (msg: string) => { speakMsg.push(msg) }
-        }
-      },
+    const messages = await subject.executeCommand({
       pm: false,
       userid: '1234',
       arg: term
     })
 
-    await expect(pmMsg).toBeUndefined()
-    await expect(speakMsg).toEqual([
-      'Definition: The word that comes after "of this dick"',
-      'Example: Me: Hey Daquan sit at deenda\n\nDaquan : deenda what?\r\nMe : deenda of this dick',
-      'http://deenda.urbanup.com/10559627'
-    ])
     expect(axios.get).toHaveBeenCalledWith('http://api.urbandictionary.com/v0/define', { params: { term: term } })
+    expect(messages).toStrictEqual([
+      {
+        text: 'Definition: The word that comes after "of this dick"',
+        pm: false
+      },
+      {
+        text: 'Example: Me: Hey Daquan sit at deenda\n\nDaquan : deenda what?\r\nMe : deenda of this dick',
+        pm: false
+      },
+      {
+        text: 'http://deenda.urbanup.com/10559627',
+        pm: false
+      }
+    ])
   })
 
   it('looks up definition when there are no results', async () => {
-    let pmMsg: string
-    let speakMsg: string
-
     axios.get.mockImplementationOnce(() => Promise.resolve({ data: { list: [] } }))
 
     const term = 'something'
-    await subject.executeCommand({
-      cmbot: {
-        bot: {
-          pm: (msg: string) => { pmMsg = msg },
-          speak: (msg: string) => { speakMsg = msg }
-        }
-      },
+    const messages = await subject.executeCommand({
       pm: false,
       userid: '1234',
       arg: term
     })
 
-    await expect(pmMsg).toBeUndefined()
-    await expect(speakMsg).toBe(`could not find any definitions for ${term}`)
     expect(axios.get).toHaveBeenCalledWith('http://api.urbandictionary.com/v0/define', { params: { term: term } })
+    expect(messages).toStrictEqual([{
+      text: `could not find any definitions for ${term}`,
+      pm: false
+    }])
   })
 
   it('when looking up definition calls correct url', async () => {
     const term = 'deenda'
     await subject.executeCommand({
-      cmbot: {
-        bot: {
-          pm: (msg: string) => { },
-          speak: (msg: string) => { }
-        }
-      },
       pm: false,
       userid: '1234',
       arg: term

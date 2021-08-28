@@ -2,27 +2,30 @@ import { CommandAlgo } from '../command-algo'
 import { SameLocationMessageWriter } from '../../../message_writer/same-location-message-writer'
 import { DadJokeApiClient } from './dad-joke-api-client'
 import { CommandArgs } from '../../command-args'
+import { Message } from '../../../message_writer/message-writer'
 
 export class DadJokeCommand implements CommandAlgo {
   readonly commandName: string = 'dadjoke'
 
-  private readonly sameLocationMessageWriter: SameLocationMessageWriter
   private readonly dadJokeClient: DadJokeApiClient
 
-  static create (sameLocationMessageWriter: SameLocationMessageWriter): DadJokeCommand {
-    const dadJokeClient = new DadJokeApiClient()
-    return new DadJokeCommand(sameLocationMessageWriter, dadJokeClient)
+  static create (): DadJokeCommand {
+    return new DadJokeCommand(new DadJokeApiClient())
   }
 
-  constructor (sameLocationMessageWriter: SameLocationMessageWriter, dadJokeClient: DadJokeApiClient) {
-    this.sameLocationMessageWriter = sameLocationMessageWriter
+  constructor (dadJokeClient: DadJokeApiClient) {
     this.dadJokeClient = dadJokeClient
   }
 
-  async executeCommand (options: CommandArgs): Promise<void> {
+  async executeCommand (options: CommandArgs): Promise<Message[]> {
     if (!options.pm) {
       const joke = await this.dadJokeClient.getRandomJoke()
-      await this.sameLocationMessageWriter.writeMessage(joke, options)
+      return [{
+        text: joke,
+        pm: options.pm
+      }]
+    } else {
+      return []
     }
   }
 

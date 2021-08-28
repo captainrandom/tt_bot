@@ -1,5 +1,5 @@
 import { CommandAlgo } from '../command-algo'
-import { MessageWriter } from '../../../message_writer/message-writer'
+import { Message, MessageWriter } from '../../../message_writer/message-writer'
 import { CommandArgs } from '../../command-args'
 import { ChuckNorrisClient } from './chuck-norris-client'
 
@@ -7,21 +7,22 @@ export class ChuckNorisApiAlgo implements CommandAlgo {
     readonly commandName: string = 'chuckfacts'
 
     private readonly chuckNorrisClient: ChuckNorrisClient;
-    private readonly messageWriter: MessageWriter;
 
-    static async create (messageWriter: MessageWriter): Promise<ChuckNorisApiAlgo> {
+    static async create (): Promise<ChuckNorisApiAlgo> {
       const chuckNorisClient = new ChuckNorrisClient()
-      return new ChuckNorisApiAlgo(chuckNorisClient, messageWriter)
+      return new ChuckNorisApiAlgo(chuckNorisClient)
     }
 
-    constructor (chuckNorrisClient: ChuckNorrisClient, messageWriter: MessageWriter) {
+    constructor (chuckNorrisClient: ChuckNorrisClient) {
       this.chuckNorrisClient = chuckNorrisClient
-      this.messageWriter = messageWriter
     }
 
-    async executeCommand (options: CommandArgs): Promise<void> {
+    async executeCommand (options: CommandArgs): Promise<Message[]> {
       const msg = await this.getMessage(options.arg)
-      await this.messageWriter.writeMessage(msg, options)
+      return [{
+        text: msg,
+        pm: options.pm
+      }]
     }
 
     private async getMessage (arg: string): Promise<string> {

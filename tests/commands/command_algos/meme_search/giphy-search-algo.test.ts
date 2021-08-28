@@ -1,10 +1,8 @@
 import { GiphySearchAlgo } from '../../../../src/commands/command_algos/meme_search/giphy-search-algo'
 import { GiphyFetch } from '@giphy/js-fetch-api'
-import { SameLocationMessageWriter } from '../../../../src/message_writer/same-location-message-writer'
 import { anything, instance, mock, when } from 'ts-mockito'
 
 var sinon = require("sinon");
-
 
 describe('searches giphy api', () => {
   const giphyMock: GiphyFetch = mock(GiphyFetch)
@@ -12,7 +10,7 @@ describe('searches giphy api', () => {
 
   let subject
   beforeEach(() => {
-    subject = new GiphySearchAlgo(instance(giphyMock), new SameLocationMessageWriter())
+    subject = new GiphySearchAlgo(instance(giphyMock))
   })
 
   it('check spelling of command name', () => {
@@ -20,31 +18,21 @@ describe('searches giphy api', () => {
   })
 
   it('returns no gifs for random search query', async () => {
-    let pmMsg: string
-    let speakMsg: string
     const arg = 'adfinw'
     when(giphyMock.search(arg, anything())).thenResolve({
       data: []
     })
 
-    await subject.executeCommand({
-      cmbot: {
-        bot: {
-          pm: (msg: string) => {
-            pmMsg = msg
-          },
-          speak: (msg: string) => {
-            speakMsg = msg
-          }
-        }
-      },
+    const messages = await subject.executeCommand({
       pm: false,
       userid: '1234',
       arg
     })
 
-    await expect(pmMsg).toBeUndefined()
-    await expect(speakMsg).toBe('no gifs found for adfinw')
+    expect(messages).toStrictEqual([{
+      text: 'no gifs found for adfinw',
+      pm: false
+    }])
   })
 
   it('returns gifs', async () => {
@@ -60,28 +48,20 @@ describe('searches giphy api', () => {
       ]
     })
 
-    await subject.executeCommand({
-      cmbot: {
-        bot: {
-          pm: (msg: string) => {
-            pmMsg = msg
-          },
-          speak: (msg: string) => {
-            speakMsg = msg
-          }
-        }
-      },
+    const messages = await subject.executeCommand({
       pm: false,
       userid: '1234',
       arg
     })
 
-    await expect(pmMsg).toBeUndefined()
-    await expect(speakMsg).toBe('https://media.giphy.com/media/abcde/giphy.gif')
+    expect(messages).toStrictEqual([{
+      text: 'https://media.giphy.com/media/abcde/giphy.gif',
+      pm: false
+    }])
   })
 
   it('makes useful help text', () => {
     const result = subject.getHelp()
-    expect(result).toBe('queries a random gif by typing /giphy')
+    expect(result).toBe('queries a random gif by typing /giphy <search terms>')
   })
 })
