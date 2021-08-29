@@ -1,20 +1,32 @@
-.PHONY: setup-install
-setup-install:
-	npm install -g yarn ts-node
-	yarn install
-
 .PHONY: run-bot
 run-bot:
 	WORK_DIR="." ./run-bot.sh
 
-.PHONY: setup-configs
-setup-configs:
+.PHONY: copy-configs
+copy-configs:
 	sudo cp systemd/* /etc/systemd/system/
 	sudo systemctl daemon-reload
-	sudo systemctl enable tt-bot
 
+.PHONY: start-server
+start-server: copy-configs
+	sudo systemctl enable tt-bot
 	sudo systemctl start tt-bot
 	sudo systemctl start tt-bot-restart
+
+.PHONY: restart-server
+restart-server: restart-server
+	sudo systemctl reboot tt-bot
+	sudo systemctl reboot tt-bot-restart
+
+.PHONY: stop-server
+restart-server:
+	sudo systemctl stop tt-bot
+	sudo systemctl stop tt-bot-restart
+
+.PHONY: setup-install
+setup-install:
+	npm install -g yarn ts-node
+	yarn install
 
 .PHONY: download-configs
 download-configs:

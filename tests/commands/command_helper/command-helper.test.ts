@@ -27,14 +27,9 @@ describe('test command helper', () => {
     const words = '@popsicle help'.split(' ')
     const options = { pm: false, userName: 'whocares' }
     expect(subject.getHelpMessage(words, options)).toEqual([{
-      text: '/dadjoke',
+      text: 'list of commands: /dadjoke, /urbandict',
       pm: false
-    },
-    {
-      text: '/urbandict',
-      pm: false
-    }
-    ])
+    }])
   })
 
   it('determine if help called', () => {

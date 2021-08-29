@@ -42,11 +42,9 @@ export class CommandHelper {
   }
 
   private listCommands (options: CommandHelperOptions): Message[] {
-    const msgItr = Array.from(this.commandsByName.keys())
+    const commandList: string = Array.from(this.commandsByName.keys())
       .sort()
-      .map(commandName => {
-        return { text: commandName, pm: options.pm }
-      })
-    return Array.from(msgItr)
+      .join(', ')
+    return [{ text: `list of commands: ${commandList}`, pm: options.pm }]
   }
 }
