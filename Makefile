@@ -5,13 +5,16 @@ setup-install:
 
 .PHONY: run-bot
 run-bot:
-	./run-bot.sh
+	WORK_DIR="." ./run-bot.sh
 
 .PHONY: setup-configs
 setup-configs:
-	cp systemd/* /etc/systemd/system/
-	sudo systemctl daemon reload
+	sudo cp systemd/* /etc/systemd/system/
+	sudo systemctl daemon-reload
 	sudo systemctl enable tt-bot
+
+	sudo systemctl start tt-bot
+	sudo systemctl start tt-bot-restart
 
 .PHONY: download-configs
 download-configs:

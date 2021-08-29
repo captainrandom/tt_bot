@@ -2,7 +2,8 @@
 Description=TT Bot
 
 [Service]
-ExecStart=/home/ubuntu/tt_bot/run_tt_bot.sh
+ExecStart=/home/ubuntu/tt_bot/run-bot.sh
+Environment="WORK_DIR=/home/ubuntu/tt_bot"
 Restart=on-failure
 RestartSec=5s
 
