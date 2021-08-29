@@ -14,7 +14,7 @@ start-server: copy-configs
 	sudo systemctl start tt-bot-restart
 
 .PHONY: restart-server
-restart-server: restart-server
+restart-server: copy-configs
 	sudo systemctl reboot tt-bot
 	sudo systemctl reboot tt-bot-restart
 
