@@ -1,3 +1,8 @@
+.PHONY: setup-install
+setup-install:
+	npm install -g yarn ts-node
+	yarn install
+
 .PHONY: run-bot
 run-bot:
 	./run-bot.sh
