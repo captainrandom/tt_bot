@@ -19,7 +19,7 @@ restart-server: copy-configs
 	sudo systemctl reboot tt-bot-restart
 
 .PHONY: stop-server
-restart-server:
+stop-server:
 	sudo systemctl stop tt-bot
 	sudo systemctl stop tt-bot-restart
 
