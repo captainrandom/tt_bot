@@ -20,8 +20,8 @@ restart-server: copy-configs
 
 .PHONY: stop-server
 stop-server:
-	sudo systemctl stop tt-bot
 	sudo systemctl stop tt-bot-restart
+	sudo systemctl stop tt-bot
 
 .PHONY: setup-install
 setup-install:

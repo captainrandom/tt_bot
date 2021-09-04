@@ -4,3 +4,6 @@ Description=restart TT Bot service
 [Service]
 Type=oneshot
 ExecStart=/bin/systemctl restart tt-bot
+
+[Install]
+WantedBy=multi-user.target
