@@ -6,10 +6,11 @@ run-bot:
 copy-configs:
 	sudo cp systemd/* /etc/systemd/system/
 	sudo systemctl daemon-reload
+	sudo systemctl enable tt-bot
+	sudo systemctl enable tt-bot-restart
 
 .PHONY: start-server
 start-server: copy-configs
-	sudo systemctl enable tt-bot
 	sudo systemctl start tt-bot
 	sudo systemctl start tt-bot-restart
 
