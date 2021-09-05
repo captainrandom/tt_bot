@@ -8,6 +8,7 @@ copy-configs:
 	sudo systemctl daemon-reload
 	sudo systemctl enable tt-bot
 	sudo systemctl enable tt-bot-restart
+	crontab -u $(whoami) crontab
 
 .PHONY: start-server
 start-server: copy-configs

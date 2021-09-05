@@ -1,0 +1,1 @@
+0 */12 * * * sudo systemctl restart tt-bot
